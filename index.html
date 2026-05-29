@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TERMINAL OS</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="terminal" role="application" aria-label="Terminal portfolio interface">
+      <header class="terminal__header">
+        <p class="title">DEBUG CONSOLE [ENABLED]</p>
+      </header>
+
+      <section class="terminal__main">
+        <section id="output" class="terminal__output" aria-live="polite"></section>
+        <aside id="viewer" class="viewer" aria-live="polite">
+          <p id="viewer-title" class="viewer__title">LOG READER</p>
+          <pre id="viewer-content" class="viewer__content">Use cat on a .log or .txt file to open it here.</pre>
+        </aside>
+      </section>
+
+      <form id="terminal-form" class="terminal__input-row" autocomplete="off">
+        <label for="terminal-input" class="prompt">root@portfolio:~$</label>
+        <span class="current-line-marker" aria-hidden="true">&gt;</span>
+        <input
+          id="terminal-input"
+          class="terminal__input"
+          type="text"
+          spellcheck="false"
+          autofocus
+          aria-label="Terminal command input"
+          placeholder="Type 'help' and press Enter"
+        />
+      </form>
+    </main>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
