@@ -7,33 +7,47 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <main class="terminal" role="application" aria-label="Terminal portfolio interface">
-      <header class="terminal__header">
-        <p class="title">DEBUG CONSOLE [ENABLED]</p>
-      </header>
+    <div id="desktop" class="desktop" role="application" aria-label="Terminal portfolio desktop"></div>
 
-      <section class="terminal__main">
-        <section id="output" class="terminal__output" aria-live="polite"></section>
-        <aside id="viewer" class="viewer" aria-live="polite">
-          <p id="viewer-title" class="viewer__title">LOG READER</p>
-          <pre id="viewer-content" class="viewer__content">Use cat on a .log or .txt file to open it here.</pre>
-        </aside>
+    <template id="terminal-template">
+      <section class="terminal-window">
+        <main class="terminal">
+          <header class="terminal__header drag-handle">
+            <p class="title">DEBUG CONSOLE [ENABLED]</p>
+          </header>
+
+          <section class="terminal__main">
+            <section class="terminal__output" aria-live="polite"></section>
+          </section>
+
+          <form class="terminal__input-row" autocomplete="off">
+            <label class="prompt">root@portfolio:/$</label>
+            <span class="current-line-marker" aria-hidden="true">&gt;</span>
+            <input
+              class="terminal__input"
+              type="text"
+              spellcheck="false"
+              aria-label="Terminal command input"
+              placeholder="Type 'help' and press Enter"
+            />
+          </form>
+        </main>
+        <span class="resize-handle" aria-hidden="true"></span>
       </section>
+    </template>
 
-      <form id="terminal-form" class="terminal__input-row" autocomplete="off">
-        <label for="terminal-input" class="prompt">root@portfolio:~$</label>
-        <span class="current-line-marker" aria-hidden="true">&gt;</span>
-        <input
-          id="terminal-input"
-          class="terminal__input"
-          type="text"
-          spellcheck="false"
-          autofocus
-          aria-label="Terminal command input"
-          placeholder="Type 'help' and press Enter"
-        />
-      </form>
-    </main>
+    <template id="document-template">
+      <section class="terminal-window document-window" data-min-width="420" data-min-height="280">
+        <main class="document">
+          <header class="document__header drag-handle">
+            <p class="document__title">DOCUMENT</p>
+            <button class="document__close" type="button" aria-label="Close document window">x</button>
+          </header>
+          <section class="document__body" aria-live="polite"></section>
+        </main>
+        <span class="resize-handle" aria-hidden="true"></span>
+      </section>
+    </template>
 
     <script src="./main.js"></script>
   </body>

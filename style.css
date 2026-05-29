@@ -9,8 +9,6 @@
 body {
   margin: 0;
   min-height: 100vh;
-  display: grid;
-  place-items: center;
   background:
     radial-gradient(circle at 10% 10%, rgba(74, 186, 200, 0.16), transparent 40%),
     radial-gradient(circle at 88% 75%, rgba(44, 95, 168, 0.14), transparent 45%),
@@ -18,11 +16,26 @@ body {
   color: #d3e6ea;
   font-family: "Courier New", Consolas, monospace;
   padding: 24px;
+  overflow: hidden;
+}
+
+.desktop {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 48px);
+}
+
+.terminal-window {
+  position: absolute;
+  width: min(980px, 95vw);
+  height: min(680px, 88vh);
+  min-width: 600px;
+  min-height: 380px;
 }
 
 .terminal {
-  width: min(980px, 95vw);
-  height: min(680px, 88vh);
+  width: 100%;
+  height: 100%;
   border: 1px solid #2d4f5a;
   border-radius: 8px;
   background: linear-gradient(180deg, #0d1d24 0%, #09161d 100%);
@@ -41,6 +54,8 @@ body {
   display: flex;
   align-items: center;
   background: #0f252e;
+  user-select: none;
+  cursor: move;
 }
 
 .title {
@@ -53,8 +68,7 @@ body {
 
 .terminal__main {
   min-height: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 34%);
+  display: block;
   border-bottom: 1px solid #18333d;
 }
 
@@ -68,31 +82,6 @@ body {
   background-size: 100% 2px;
 }
 
-.viewer {
-  border-left: 1px solid #20424c;
-  background: #0b1b22;
-  padding: 14px;
-  opacity: 0;
-  transform: translateX(12px);
-  pointer-events: none;
-  transition: opacity 260ms ease, transform 320ms ease;
-}
-
-.viewer--visible {
-  opacity: 1;
-  transform: translateX(0);
-  pointer-events: auto;
-}
-
-.viewer__title {
-  margin: 0 0 10px;
-  color: #94cdd8;
-  font-size: 0.88rem;
-  letter-spacing: 0.05em;
-  border-bottom: 1px dashed #2d5d67;
-  padding-bottom: 8px;
-}
-
 .viewer__content {
   margin: 0;
   white-space: pre-wrap;
@@ -101,6 +90,107 @@ body {
   font: inherit;
   max-height: calc(100% - 44px);
   overflow-y: auto;
+}
+
+.viewer__content--markdown h1,
+.viewer__content--markdown h2,
+.viewer__content--markdown h3 {
+  color: #9fe5ef;
+  margin: 0.7em 0 0.35em;
+}
+
+.viewer__content--markdown p,
+.viewer__content--markdown li {
+  margin: 0.4em 0;
+}
+
+.viewer__content--markdown code {
+  background: rgba(111, 201, 214, 0.12);
+  padding: 0.08em 0.24em;
+  border-radius: 4px;
+}
+
+.viewer__image {
+  width: 100%;
+  height: auto;
+  border: 1px solid #2a5662;
+  border-radius: 6px;
+}
+
+.viewer__pdf {
+  width: 100%;
+  min-height: 420px;
+  border: 1px solid #2a5662;
+  border-radius: 6px;
+  background: #f0f0f0;
+}
+
+.document-window {
+  width: min(760px, 90vw);
+  height: min(520px, 76vh);
+  min-width: 420px;
+  min-height: 280px;
+}
+
+.document {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #2d4f5a;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #0f1f26 0%, #0b1820 100%);
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(116, 185, 196, 0.12);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.document__header {
+  min-height: 46px;
+  border-bottom: 1px solid #20424c;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #12303a;
+  user-select: none;
+  cursor: move;
+}
+
+.document__title {
+  margin: 0;
+  color: #9ed4de;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+
+.document__close {
+  border: 1px solid #3f6973;
+  background: #102932;
+  color: #a8d9e1;
+  border-radius: 5px;
+  width: 26px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.document__close:hover {
+  background: #173843;
+}
+
+.document__body {
+  padding: 14px;
+  overflow: auto;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 260ms ease, transform 300ms ease;
+}
+
+.document__body--visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .line {
@@ -171,14 +261,24 @@ body {
   color: #7ba1aa;
 }
 
+.resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 40%, #89c4ce 42%, #89c4ce 52%, transparent 54%);
+}
+
 @media (max-width: 900px) {
-  .terminal__main {
-    grid-template-columns: 1fr;
+  .terminal-window {
+    min-width: 320px;
+    min-height: 300px;
   }
 
-  .viewer {
-    border-left: 0;
-    border-top: 1px solid #20424c;
-    min-height: 170px;
+  .document-window {
+    min-width: 320px;
+    min-height: 240px;
   }
 }
